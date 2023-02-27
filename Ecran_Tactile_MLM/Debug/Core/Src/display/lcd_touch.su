@@ -1,0 +1,16 @@
+../Core/Src/display/lcd_touch.c:41:14:fclamp	24	static
+../Core/Src/display/lcd_touch.c:45:14:adc_norm_x	16	static
+../Core/Src/display/lcd_touch.c:49:14:adc_norm_y	16	static
+../Core/Src/display/lcd_touch.c:53:17:ADC_GetValue	40	static
+../Core/Src/display/lcd_touch.c:74:13:GPIO_SetPinMode	48	static
+../Core/Src/display/lcd_touch.c:84:13:ADC_GPIOA_init	40	static
+../Core/Src/display/lcd_touch.c:92:17:touchX	8	static
+../Core/Src/display/lcd_touch.c:104:17:touchY	16	static
+../Core/Src/display/lcd_touch.c:126:6:LCD_Touch_Init	24	static
+../Core/Src/display/lcd_touch.c:134:13:GPIO_DrawMode	40	static
+../Core/Src/display/lcd_touch.c:158:13:GPIO_InterruptMode	32	static
+../Core/Src/display/lcd_touch.c:200:19:LCD_SetMode	16	static
+../Core/Src/display/lcd_touch.c:219:20:LCD_Touch_Read	24	static
+../Core/Src/display/lcd_touch.c:250:6:LCD_Touch_OnDown	4	static
+../Core/Src/display/lcd_touch.c:261:6:LCD_Touch_OnUp	8	static
+../Core/Src/display/lcd_touch.c:278:16:LCD_Touch_GetState	4	static
