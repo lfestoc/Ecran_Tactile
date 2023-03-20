@@ -34,34 +34,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := Ecran_Tactile_MLM
+BUILD_ARTIFACT_NAME := hh
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-Ecran_Tactile_MLM.elf \
+hh.elf \
 
 MAP_FILES += \
-Ecran_Tactile_MLM.map \
+hh.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-Ecran_Tactile_MLM.list \
+hh.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: Ecran_Tactile_MLM.elf secondary-outputs
+main-build: hh.elf secondary-outputs
 
 # Tool invocations
-Ecran_Tactile_MLM.elf Ecran_Tactile_MLM.map: $(OBJS) $(USER_OBJS) /Users/leof/STM32CubeIDE/workspace_1.11.0/Ecran_Tactile/Ecran_Tactile_MLM/STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Ecran_Tactile_MLM.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/leof/STM32CubeIDE/workspace_1.11.0/Ecran_Tactile/Ecran_Tactile_MLM/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Ecran_Tactile_MLM.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+hh.elf hh.map: $(OBJS) $(USER_OBJS) /Users/leof/STM32CubeIDE/workspace_1.11.0/hh/STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "hh.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/leof/STM32CubeIDE/workspace_1.11.0/hh/STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="hh.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -70,14 +70,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Ecran_Tactile_MLM.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "Ecran_Tactile_MLM.list"
+hh.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "hh.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) Ecran_Tactile_MLM.elf Ecran_Tactile_MLM.list Ecran_Tactile_MLM.map default.size.stdout
+	-$(RM) default.size.stdout hh.elf hh.list hh.map
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
