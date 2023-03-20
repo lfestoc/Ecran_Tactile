@@ -1,5 +1,0 @@
-../Core/Src/display/lcd_touch_draw.c:22:13:DrawTouchPoint	16	static
-../Core/Src/display/lcd_touch_draw.c:30:6:LCD_Touch_Draw_ConnectLastPoint	32	static
-../Core/Src/display/lcd_touch_draw.c:45:6:LCD_Touch_Draw_PrintInfo	8	static
-../Core/Src/display/lcd_touch_draw.c:73:6:LCD_Touch_Draw_Update	8	static
-../Core/Src/display/lcd_touch_draw.c:84:6:LCD_Touch_Draw_OnUp	4	static
