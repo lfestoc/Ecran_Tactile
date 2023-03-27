@@ -111,8 +111,16 @@ void LCD_Touch_OnUp();
  */
 LCD_TouchState LCD_Touch_GetState();
 
+/*
+ * Return TRUE if the point belong to the interval
+ */
+int LCD_Touch_Belong_Interval(LCD_TouchPoint* p,int16_t xmin,int16_t xmax,int16_t ymin,int16_t ymax);
 
 
+/*
+ * Draw the last touch point on the bottom
+ */
+void LCD_Touch_Draw_LastPoint_Bottom(const LCD_TouchPoint* p);
 // -------------------- Drawing the last touch --------------------
 // These functions are supplementary and provide a simple interface
 // of connecting the last touch points by drawing a line.

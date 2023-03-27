@@ -21,6 +21,7 @@
 
 #include <stdlib.h>
 #include "lcd_touch.h"
+#include "MY_ILI9341.h"
 
 #define ADC_NO_TOUCH_X_OUTSIDE (4095 - 100)
 #define TOUCH_ADC_X_MAX 3600
@@ -279,3 +280,33 @@ LCD_TouchState LCD_Touch_GetState() {
 	return m_touch_state;
 }
 
+/*
+ * Return TRUE if the point belong to the interval
+ */
+int LCD_Touch_Belong_Interval(LCD_TouchPoint* p,int16_t xmin,int16_t xmax,int16_t ymin,int16_t ymax)
+{
+	 if(p->x>xmin && p->x<xmax && p->y>ymin && p->y<ymax) return 1;
+	 return 0;
+
+}
+
+/*
+ * Draw the last touch point on the bottom
+ */
+void LCD_Touch_Draw_LastPoint_Bottom(const LCD_TouchPoint* p)
+{
+	char TextPos[] = "Last touch point X=000  Y=000";
+	char PosX[3];
+	char PosY[3];
+	LCD_SetMode(LCD_MODE_DRAW);
+	ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
+	strcpy(TextPos,"Last touch point X=");
+	sprintf(PosX,"%d",p->x);
+	strncat(TextPos,PosX,sizeof(int));
+	strncat(TextPos," Y=",3);
+	sprintf(PosY,"%d",p->y);
+	strncat(TextPos,PosY,sizeof(PosY));
+	ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
+	ILI9341_printText(TextPos, 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
+	LCD_SetMode(LCD_MODE_TOUCH);
+}

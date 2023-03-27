@@ -73,7 +73,7 @@ static void MX_ADC2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	//int Testcolor=0;
+	int Testcolor=0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -138,7 +138,7 @@ int main(void)
 	//  __WFI();
 
 
-	  	  /*** main test 1 basique ***/
+	  	  /*** main test 1 basique BEG ***/
 /*
 		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
 		  {
@@ -153,16 +153,16 @@ int main(void)
 			  LCD_SetMode(LCD_MODE_TOUCH);
 		  }
 */
+	  /*** main test 1 basique END ***/
 
-  	  /*** main test 2 draw last point ***/
-
+  	  /*** main test 2 draw last point BEG ***/
+/*
 		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
 		  {
 			  LCD_SetMode(LCD_MODE_DRAW);
 			  ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
 			  strcpy(TextPos,"Last touch point X=");
 			  sprintf(PosX,"%d",p.x);
-
 			  strncat(TextPos,PosX,sizeof(int));
 			  strncat(TextPos," Y=",3);
 			  sprintf(PosY,"%d",p.y);
@@ -181,72 +181,50 @@ int main(void)
 
 
   }
-
-
-
-
-/*
-		  if (LCD_Touch_Read(&p) == LCD_TOUCH_READ_SUCCESS) {
-		 	 		ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
-		 	 		ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
-		 	 		strcpy(TextPos,"Last touch point X=");
-		 	 		PosX=(char)p.x;
-		 	 		strncat(TextPos,PosX,(sizeof(TextPos)+sizeof(PosY)));
-		 	 		strncat(TextPos," Y=",3);
-		 	 		PosY=(char)p.y;
-		 	 		strncat(TextPos,PosY,(sizeof(TextPos)+sizeof(PosY)));
-		 	 		ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
-		 	 		ILI9341_printText(TextPos, 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
-		 	 	  	  }
-		 else
-		 	{
-		 	 	 ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
-
-		 	}
-	  }
 */
-	  /*
-	  if(LCD_Touch_GetState()==LCD_TOUCH_IDLE)
-		 	  {
-		  	  	 // ILI9341_printText("Pas touche ", 60 ,60, COLOR_WHITE, COLOR_RED, 1);
-		  	  	ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+	  /*** main test 2 draw last point END ***/
 
-		 	  }
-	  else
-	  {
-
-		  ILI9341_printText("Touche ", 60 ,60, COLOR_WHITE, COLOR_RED, 1);
-	  }
-*/
+  	  /*** main test 3 draw last point and touch BEG***/
 
 
-	  /*if (LCD_Touch_Read(&p) == LCD_TOUCH_READ_SUCCESS)
-	  {
-		  if(Testcolor==0)
+		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
 		  {
-			  LCD_SetMode(LCD_MODE_DRAW);
-			  	  	ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
-			  		ILI9341_printText("LED ON TOUCH 0", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
-			  		ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
-			  		ILI9341_printText("LED OFF TOUCH 0", 215,  155, COLOR_WHITE, COLOR_RED, 1);
-			  		ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+			  LCD_Touch_Draw_LastPoint_Bottom(&p);
+
+			  if(LCD_Touch_Belong_Interval(&p,140,180,180,300))  // carré LED ON
+			 			  {
+
+			 					  LCD_SetMode(LCD_MODE_DRAW);
+			 					  ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+			 					  ILI9341_printText("LED ON 0", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+			 					  ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+			 					  ILI9341_printText("LED OFF 0", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+			 					  LCD_SetMode(LCD_MODE_TOUCH);
+			 			  }
+
+			 if(LCD_Touch_Belong_Interval(&p,140,180,30,140))  // carré LED OFF
+			 			{
+			 					  LCD_SetMode(LCD_MODE_DRAW);
+			 					  ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_RED);
+			 					 ILI9341_printText("LED ON 1", 55,  155, COLOR_WHITE, COLOR_RED, 1);
+			 					 ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_BLUE);
+			 					 ILI9341_printText("LED OFF 1", 215,  155, COLOR_WHITE, COLOR_BLUE, 1);
+			 					 LCD_SetMode(LCD_MODE_TOUCH);
+			 			}
 
 
-			  Testcolor=1;
-			  LCD_SetMode(LCD_MODE_TOUCH);
 		  }
-		  else
-		  {
+		  else{
 			  LCD_SetMode(LCD_MODE_DRAW);
-								ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_RED);
-						  		ILI9341_printText("LED ON TOUCH 1", 55,  155, COLOR_WHITE, COLOR_RED, 1);
-						  		ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
-						  		ILI9341_printText("LED OFF TOUCH 1", 215,  155, COLOR_WHITE, COLOR_BLUE, 1);
-						  		ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_BLUE);
-			  Testcolor=0;
+			  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
 			  LCD_SetMode(LCD_MODE_TOUCH);
+			  __WFI();
 		  }
-	  }*/
+
+
+		  	  /*** main test 3 draw last point and touch END ***/
+
+  }
 
     /* USER CODE END WHILE */
 
