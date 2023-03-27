@@ -12,5 +12,5 @@
 ../Core/Src/lcd_touch.c:200:19:LCD_SetMode	16	static
 ../Core/Src/lcd_touch.c:219:20:LCD_Touch_Read	24	static
 ../Core/Src/lcd_touch.c:250:6:LCD_Touch_OnDown	4	static
-../Core/Src/lcd_touch.c:261:6:LCD_Touch_OnUp	8	static
+../Core/Src/lcd_touch.c:261:6:LCD_Touch_OnUp	4	static
 ../Core/Src/lcd_touch.c:278:16:LCD_Touch_GetState	4	static

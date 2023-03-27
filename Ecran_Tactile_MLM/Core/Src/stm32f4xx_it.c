@@ -22,6 +22,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "lcd_touch.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -199,5 +200,19 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /* USER CODE BEGIN 1 */
+/* Called upon
+ *   LCD_TOUCH_DOWN,
+ *   LCD_TOUCH_MOVE,
+ *   LCD_TOUCH_UP
+ * events, if LCD_MODE_TOUCH is selected.
+ */
+void EXTI4_IRQHandler(void) {
+	if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_4) == GPIO_PIN_RESET) {
+		LCD_Touch_OnDown();
+	} else {
+		LCD_Touch_OnUp();
+	}
+	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
+}
 
 /* USER CODE END 1 */

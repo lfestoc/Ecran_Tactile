@@ -25,7 +25,6 @@
 #include "lcd_touch.h"
 /*#include "TSC2046.h"*/ /*We do not have a TSC2046 module */
 /* USER CODE END Includes */
-
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
@@ -104,8 +103,8 @@ int main(void)
 	ILI9341_setRotation(2);
 	ILI9341_Fill(COLOR_NAVY);
 
-	TSC2046_Begin(&hspi2, TS_CS_GPIO_Port, TS_CS_Pin);
-	TSC2046_Calibrate();
+	//TSC2046_Begin(&hspi2, TS_CS_GPIO_Port, TS_CS_Pin);
+	//TSC2046_Calibrate();
 	ILI9341_Fill(COLOR_WHITE);
 
 		ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
@@ -127,12 +126,38 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
-	  if (LCD_Touch_Read(&p) == LCD_TOUCH_READ_SUCCESS)
+
+	  if(LCD_Touch_Read(&p) != LCD_TOUCH_IDLE)
+	 	  {
+		  ILI9341_printText("Pas touche ", 60 ,60, COLOR_WHITE, COLOR_RED, 1);
+	 	  }
+	  else{
+
+		  if (LCD_Touch_Read(&p) == LCD_TOUCH_READ_SUCCESS) {
+		 	 		  ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
+		 	 		  HAL_Delay(100);
+		 	 		  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+		 	 	  	  }
+		 	 	  else
+		 	 	  	  {
+		 	 	  		  ILI9341_printText("Ne touche plus  ", 60 ,60, COLOR_WHITE, COLOR_RED, 1);
+		 	 	  		ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+		 	 	  	  }
+	  }
+
+
+
+
+
+
+	  /*if (LCD_Touch_Read(&p) == LCD_TOUCH_READ_SUCCESS)
 	  {
 		  if(Testcolor==0)
 		  {
+			  LCD_SetMode(LCD_MODE_DRAW);
 			  	  	ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
 			  		ILI9341_printText("LED ON TOUCH 0", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
 			  		ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
@@ -141,17 +166,21 @@ int main(void)
 
 
 			  Testcolor=1;
+			  LCD_SetMode(LCD_MODE_TOUCH);
 		  }
 		  else
 		  {
+			  LCD_SetMode(LCD_MODE_DRAW);
 								ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_RED);
 						  		ILI9341_printText("LED ON TOUCH 1", 55,  155, COLOR_WHITE, COLOR_RED, 1);
 						  		ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
 						  		ILI9341_printText("LED OFF TOUCH 1", 215,  155, COLOR_WHITE, COLOR_BLUE, 1);
 						  		ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_BLUE);
 			  Testcolor=0;
+			  LCD_SetMode(LCD_MODE_TOUCH);
 		  }
-	  }
+	  }*/
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

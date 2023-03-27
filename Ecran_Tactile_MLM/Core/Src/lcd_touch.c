@@ -267,7 +267,7 @@ void LCD_Touch_OnUp() {
 		// as an argument to LCD_Touch_Read function.
 		m_last_point_ref->state = LCD_TOUCH_UP;
 	}
-	LCD_Touch_Draw_OnUp();
+	//LCD_Touch_Draw_OnUp();
 }
 
 
