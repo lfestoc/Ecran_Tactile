@@ -230,14 +230,14 @@ LCD_TouchReadState LCD_Touch_Read(LCD_TouchPoint* p) {
 	}
 
 	uint32_t y = touchY();
-
+	m_touch_state = LCD_TOUCH_MOVE;
 	p->x = (int16_t) ((1 - fclamp(adc_norm_x(x), 0.0f, 1.0f)) * TFTWIDTH);
 	p->y = (int16_t) ((1 - fclamp(adc_norm_y(y), 0.0f, 1.0f)) * TFTHEIGHT);
 	p->tick = HAL_GetTick();
 	p->state = m_touch_state;
 
 	m_last_point_ref = p;
-	m_touch_state = LCD_TOUCH_MOVE;
+	m_touch_state = LCD_TOUCH_IDLE;
 
 	return LCD_TOUCH_READ_SUCCESS;
 }
@@ -278,3 +278,4 @@ void LCD_Touch_OnUp() {
 LCD_TouchState LCD_Touch_GetState() {
 	return m_touch_state;
 }
+

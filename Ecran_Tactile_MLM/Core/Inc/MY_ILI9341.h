@@ -142,3 +142,12 @@ void ILI9341_printImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t 
 void ILI9341_setRotation(uint8_t rotate);
 //14. Get screen rotation
 uint8_t ILI9341_getRotation(void);
+
+/**
+ * \brief Sets the cursor coordinates
+ *
+ * \param x		The x-coordinate
+ * \param y		The y-coordinate
+ *
+ * \return void
+ */

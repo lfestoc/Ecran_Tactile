@@ -17,6 +17,6 @@
 ../Core/Src/MY_ILI9341.c:638:6:ILI9341_fillTriangle	64	static
 ../Core/Src/MY_ILI9341.c:708:6:ILI9341_drawChar	40	static
 ../Core/Src/MY_ILI9341.c:754:6:ILI9341_printText	48	static
-../Core/Src/MY_ILI9341.c:765:6:ILI9341_printImage	32	static
-../Core/Src/MY_ILI9341.c:776:6:ILI9341_setRotation	16	static
-../Core/Src/MY_ILI9341.c:808:9:ILI9341_getRotation	4	static
+../Core/Src/MY_ILI9341.c:766:6:ILI9341_printImage	32	static
+../Core/Src/MY_ILI9341.c:777:6:ILI9341_setRotation	16	static
+../Core/Src/MY_ILI9341.c:809:9:ILI9341_getRotation	4	static
