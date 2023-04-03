@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "MY_ILI9341.h"
 #include "lcd_touch.h"
+#include "image.h"
 /*#include "TSC2046.h"*/ /*We do not have a TSC2046 module */
 /* USER CODE END Includes */
 /* Private typedef -----------------------------------------------------------*/
@@ -204,13 +205,34 @@ int main(void)
 
 			 if(LCD_Touch_Belong_Interval(&p,140,180,30,140))  // carré LED OFF
 			 			{
-			 					  LCD_SetMode(LCD_MODE_DRAW);
-			 					  ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_RED);
+			 					 LCD_SetMode(LCD_MODE_DRAW);
+			 					 ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_RED);
 			 					 ILI9341_printText("LED ON 1", 55,  155, COLOR_WHITE, COLOR_RED, 1);
 			 					 ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_BLUE);
 			 					 ILI9341_printText("LED OFF 1", 215,  155, COLOR_WHITE, COLOR_BLUE, 1);
 			 					 LCD_SetMode(LCD_MODE_TOUCH);
 			 			}
+
+			 if(LCD_Touch_Belong_Interval(&p,50,80,60,180))  // rectangle
+			 {
+				 ILI9341_printImage(60,30, 100,100,Banane1, sizeof(Banane1));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane2, sizeof(Banane2));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane3, sizeof(Banane3));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane4, sizeof(Banane4));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane5, sizeof(Banane5));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane6, sizeof(Banane6));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane7, sizeof(Banane7));
+				 HAL_Delay(100);
+				 ILI9341_printImage(60,30, 100,100,Banane8, sizeof(Banane8));
+				 HAL_Delay(100);
+			 }
+
 
 
 		  }
