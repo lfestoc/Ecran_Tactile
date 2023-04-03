@@ -3,7 +3,7 @@
 * This library is used to put array of int8_t which are the images
 * convert your images with this website :  http://www.digole.com/tools/PicturetoC_Hex_converter.php?fbclid=IwAR2u4dEysesjXrFyrDLVbIzXWBxgCl0EI-ELwH0XlvS7NVUDYdPo1Nxm1MA
 * then put it in an array like the following ones 
-* the configuration is 262k colors
+* the configuration is 256 colors 1000x100 pixels
 *
 */
 

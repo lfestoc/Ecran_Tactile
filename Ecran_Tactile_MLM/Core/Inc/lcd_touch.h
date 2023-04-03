@@ -129,5 +129,6 @@ void LCD_Touch_Draw_ConnectLastPoint(const LCD_TouchPoint* p);
 void LCD_Touch_Draw_PrintInfo();
 void LCD_Touch_Draw_OnUp();
 void LCD_Touch_Draw_Update();
+void DrawTouchPoint(const LCD_TouchPoint* p);
 
 #endif /* __LCD_TOUCH_H */

@@ -28,6 +28,17 @@
 #define TOUCH_ADC_X_MIN 500
 #define TOUCH_ADC_Y_MIN 300
 #define TOUCH_ADC_Y_MAX 3780
+#define LCD_TOUCH_DRAW_POINT_RADIUS  3
+
+static LCD_TouchPoint m_last_touch_point = {
+		.x=0,
+		.y=0,
+		.tick=0,
+		.state=LCD_TOUCH_IDLE
+};
+
+static uint8_t m_is_redraw_needed = 0U;
+
 
 static const float ADC_UNIT_PX_X = 1.0 / (TOUCH_ADC_X_MAX - TOUCH_ADC_X_MIN);
 static const float ADC_UNIT_PX_Y = 1.0 / (TOUCH_ADC_Y_MAX - TOUCH_ADC_Y_MIN);
@@ -309,4 +320,30 @@ void LCD_Touch_Draw_LastPoint_Bottom(const LCD_TouchPoint* p)
 	ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
 	ILI9341_printText(TextPos, 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
 	LCD_SetMode(LCD_MODE_TOUCH);
+}
+
+
+
+
+void DrawTouchPoint(const LCD_TouchPoint* p) {
+
+		ILI9341_fillCircle(320-p->y, p->x, LCD_TOUCH_DRAW_POINT_RADIUS, COLOR_GREEN);
+
+}
+
+
+void LCD_Touch_Draw_Update() {
+	// special care for the LCD_TOUCH_UP event
+	if (m_is_redraw_needed) {
+		LCD_SetMode(LCD_MODE_DRAW);
+		DrawTouchPoint(&m_last_touch_point);
+		LCD_SetMode(LCD_MODE_TOUCH);
+		//LCD_Touch_Draw_PrintInfo();
+	}
+	m_is_redraw_needed = 0U;
+}
+
+void LCD_Touch_Draw_OnUp() {
+	m_last_touch_point.state = LCD_TOUCH_UP;
+	m_is_redraw_needed = 1U;
 }

@@ -191,6 +191,7 @@ int main(void)
 		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
 		  {
 			  LCD_Touch_Draw_LastPoint_Bottom(&p);
+			  DrawTouchPoint(&p);
 
 			  if(LCD_Touch_Belong_Interval(&p,140,180,180,300))  // carré LED ON
 			 			  {
