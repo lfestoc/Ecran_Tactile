@@ -242,14 +242,14 @@ LCD_TouchReadState LCD_Touch_Read(LCD_TouchPoint* p) {
 	}
 
 	uint32_t y = touchY();
-	m_touch_state = LCD_TOUCH_MOVE;
+
 	p->x = (int16_t) ((1 - fclamp(adc_norm_x(x), 0.0f, 1.0f)) * TFTWIDTH);
 	p->y = (int16_t) ((1 - fclamp(adc_norm_y(y), 0.0f, 1.0f)) * TFTHEIGHT);
 	p->tick = HAL_GetTick();
 	p->state = m_touch_state;
 
 	m_last_point_ref = p;
-	m_touch_state = LCD_TOUCH_IDLE;
+	m_touch_state = LCD_TOUCH_MOVE;
 
 	return LCD_TOUCH_READ_SUCCESS;
 }
@@ -303,6 +303,7 @@ int LCD_Touch_Belong_Interval(LCD_TouchPoint* p,int16_t xmin,int16_t xmax,int16_
 
 /*
  * Draw the last touch point on the bottom
+ * to use in touch mode
  */
 void LCD_Touch_Draw_LastPoint_Bottom(const LCD_TouchPoint* p)
 {
@@ -310,7 +311,7 @@ void LCD_Touch_Draw_LastPoint_Bottom(const LCD_TouchPoint* p)
 	char PosX[3];
 	char PosY[3];
 	LCD_SetMode(LCD_MODE_DRAW);
-	ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
+	//ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
 	strcpy(TextPos,"Last touch point X=");
 	sprintf(PosX,"%d",p->x);
 	strncat(TextPos,PosX,sizeof(int));
@@ -323,7 +324,10 @@ void LCD_Touch_Draw_LastPoint_Bottom(const LCD_TouchPoint* p)
 }
 
 
-
+/** Function DrawTouchPoint
+ * It draws one green circle where you click and stay printed
+ *
+ * */
 
 void DrawTouchPoint(const LCD_TouchPoint* p) {
 
@@ -331,7 +335,40 @@ void DrawTouchPoint(const LCD_TouchPoint* p) {
 
 }
 
+/** Function MovingTouchDrawLineRefresh
+ * It draws a line when you move during a touch and refresh to clear it
+ * to use in draw mode
+ * */
+/*
+void MovingTouchDrawLineRefresh(const LCD_TouchPoint* p,const LCD_TouchPoint* New_p) {
+	char TextPos[] = "Last touch point X=000  Y=000";
+		char PosX[3];
+		char PosY[3];
+		ILI9341_drawLine(320-p->y,p->x,320-New_p->y,New_p->x,COLOR_BLACK);
+		strcpy(TextPos,"Last touch point X=");
+			sprintf(PosX,"%d",New_p->x);
+			strncat(TextPos,PosX,sizeof(int));
+			strncat(TextPos," Y=",3);
+			sprintf(PosY,"%d",New_p->y);
+			strncat(TextPos,PosY,sizeof(PosY));
+			ILI9341_Fill_Rect(0, 0, 320, 240, COLOR_WHITE);
 
+					ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+					ILI9341_printText("LED ON", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+					ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+					ILI9341_printText("LED OFF", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+
+				ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+
+			ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
+			ILI9341_printText(TextPos, 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
+		ILI9341_Fill_Rect(5, 215, 5, 25, COLOR_GREEN);
+		ILI9341_printText("Max, Leo, Margot, time to move ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+		ILI9341_Fill_Rect(280, 0, 320, 40, COLOR_RED);
+		ILI9341_printText("X", 292, 5, COLOR_WHITE, COLOR_RED, 4);
+}
+
+*/
 void LCD_Touch_Draw_Update() {
 	// special care for the LCD_TOUCH_UP event
 	if (m_is_redraw_needed) {

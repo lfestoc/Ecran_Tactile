@@ -45,9 +45,9 @@ typedef enum {
 
 typedef enum {
 	LCD_TOUCH_IDLE = 0,  // idle; no touch is made yet
-	LCD_TOUCH_DOWN,
-	LCD_TOUCH_MOVE,
-	LCD_TOUCH_UP
+	LCD_TOUCH_DOWN, 	//Down :Start of a touch
+	LCD_TOUCH_MOVE,		//MOVE :move during a touch
+	LCD_TOUCH_UP 		//Up :End of a touch
 } LCD_TouchState;
 
 typedef enum {

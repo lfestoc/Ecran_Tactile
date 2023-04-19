@@ -23,8 +23,8 @@
 /* USER CODE BEGIN Includes */
 #include "MY_ILI9341.h"
 #include "lcd_touch.h"
+#include "string.h"
 #include "image.h"
-/*#include "TSC2046.h"*/ /*We do not have a TSC2046 module */
 /* USER CODE END Includes */
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
@@ -74,7 +74,7 @@ static void MX_ADC2_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	int Testcolor=0;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -119,13 +119,19 @@ int main(void)
 	ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
 	ILI9341_printText("Last touch point X=000  Y=000", 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
 	ILI9341_Fill_Rect(5, 215, 5, 25, COLOR_GREEN);
-	ILI9341_printText("Max, Leo, Margot, time to leave ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_printText("Max, Leo, Margot, time to start ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_Fill_Rect(280, 0, 320, 40, COLOR_RED);
+	ILI9341_printText("X", 292, 5, COLOR_WHITE, COLOR_RED, 4);
 	LCD_Touch_Init(&hadc2, ADC_CHANNEL_4, &hadc1, ADC_CHANNEL_1);
 		LCD_SetMode(LCD_MODE_TOUCH);
 		LCD_TouchPoint p;
 		p.x=0;
 		p.y=0;
 		p.state=LCD_TOUCH_IDLE;
+		LCD_TouchPoint New_p;
+				New_p.x=0;
+				New_p.y=0;
+				New_p.state=LCD_TOUCH_IDLE;
 		char TextPos[] = "Last touch point X=000  Y=000";
 		char PosX[3];
 		char PosY[3];
@@ -136,67 +142,21 @@ int main(void)
 
   while (1)
   {
-	//  __WFI();
-
-
-	  	  /*** main test 1 basique BEG ***/
+  	  /*** main test 3 draw last point and touch at start of touch BEG***/
 /*
-		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
-		  {
-			  LCD_SetMode(LCD_MODE_DRAW);
-			  ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
-			  LCD_SetMode(LCD_MODE_TOUCH);
 
-		  }
-		  else{
-			  LCD_SetMode(LCD_MODE_DRAW);
-			  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
-			  LCD_SetMode(LCD_MODE_TOUCH);
-		  }
-*/
-	  /*** main test 1 basique END ***/
-
-  	  /*** main test 2 draw last point BEG ***/
-/*
-		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
-		  {
-			  LCD_SetMode(LCD_MODE_DRAW);
-			  ILI9341_printText("touche ", 60 ,60, COLOR_WHITE, COLOR_GREEN, 1);
-			  strcpy(TextPos,"Last touch point X=");
-			  sprintf(PosX,"%d",p.x);
-			  strncat(TextPos,PosX,sizeof(int));
-			  strncat(TextPos," Y=",3);
-			  sprintf(PosY,"%d",p.y);
-			  strncat(TextPos,PosY,sizeof(PosY));
-			  ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
-			  ILI9341_printText(TextPos, 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
-			  LCD_SetMode(LCD_MODE_TOUCH);
-
-		  }
-		  else{
-			  LCD_SetMode(LCD_MODE_DRAW);
-			  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
-			  LCD_SetMode(LCD_MODE_TOUCH);
-		  }
-
-
-
-  }
-*/
-	  /*** main test 2 draw last point END ***/
-
-  	  /*** main test 3 draw last point and touch BEG***/
-
-
-		  if(LCD_Touch_Read(&p)==LCD_TOUCH_READ_SUCCESS)
-		  {
+		  if(LCD_Touch_GetState()==LCD_TOUCH_DOWN ) /if there is a touch starting
+		  {		LCD_Touch_Read(&p);
 			  LCD_Touch_Draw_LastPoint_Bottom(&p);
 			  DrawTouchPoint(&p);
+
+
 
 			  if(LCD_Touch_Belong_Interval(&p,140,180,180,300))  // carré LED ON
 			 			  {
 
 			 					  LCD_SetMode(LCD_MODE_DRAW);
+
 			 					  ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
 			 					  ILI9341_printText("LED ON 0", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
 			 					  ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
@@ -233,20 +193,210 @@ int main(void)
 				 ILI9341_printImage(60,30, 100,100,Banane8, sizeof(Banane8));
 				 HAL_Delay(100);
 			 }
+			 if(LCD_Touch_Belong_Interval(&p,0,40,0,40))  // Clear
+			 			 {
+				 	 	 	 ILI9341_Fill(COLOR_WHITE);
+				 	 	 	 ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+				 	 	 	 ILI9341_printText("LED ON", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+				 	 	 	 ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+				 	 	 	 ILI9341_printText("LED OFF", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+				 	 	 	 ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+				 	 	 	 ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
+				 	 	 	 ILI9341_printText("Last touch point X=000  Y=000", 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
+				 	 	 	 ILI9341_Fill_Rect(5, 215, 5, 25, COLOR_GREEN);
+				 	 	 	 ILI9341_printText("Max, Leo, Margot, time to start ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+				 	 	 	 ILI9341_Fill_Rect(280, 0, 320, 40, COLOR_RED);
+				 	 	 	 ILI9341_printText("X", 292, 5, COLOR_WHITE, COLOR_RED, 4);
+			 			 }
 
 
 
 		  }
-		  else{
+		  else if(LCD_Touch_GetState()==LCD_TOUCH_UP){ //if the touch end
+			  LCD_Touch_Read(&p);
 			  LCD_SetMode(LCD_MODE_DRAW);
-			  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+			  if (p.tick>1000){
+				  	  char  BUF[3600];
+				  	  sprintf(BUF,"Ticktime : %ld",p.tick);
+				  	  ILI9341_printText(BUF, 60 ,60, COLOR_WHITE, COLOR_ORANGE, 1);
+
+			  	  }
+			  	  else{
+			  		ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+			  		}
+			  ILI9341_printText("Max, Leo, Margot, time to start ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
 			  LCD_SetMode(LCD_MODE_TOUCH);
-			  __WFI();
+
+
 		  }
+		  else if(LCD_Touch_GetState()==LCD_TOUCH_MOVE){ //if there is a move during the touch
+			  New_p.x=0;
+			  New_p.y=0;
+			  LCD_Touch_Read(&New_p);
+			  if(New_p.y!=0){ //if there really is a move
+				  LCD_Touch_Draw_LastPoint_Bottom(&New_p);
+	  			  DrawTouchPoint(&p);
+
+	  			  LCD_SetMode(LCD_MODE_DRAW);
+	  			 // ILI9341_drawLine(320-p.y,p.x,320-New_p.y,New_p.x,COLOR_BLACK);
+	  			  ILI9341_printText("Max, Leo, Margot, time to leave ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+	  			  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+	  			  ILI9341_Fill_Rect(0, 0, 20, 20, COLOR_WHITE);
+
+	  			  //ILI9341_printText("MOVE ", 60 ,60, COLOR_WHITE, COLOR_ORANGE, 1);
+	  			  LCD_SetMode(LCD_MODE_TOUCH);
+
+			  }
+
+		  }
+		  else{ //IDLE
+
+		  __WFI();
+		//  }
+
+*/
+		  	  /*** main test 3 draw last point and touch at start of a touch  END ***/
+
+	  /*** main test 4 draw when moving BEG ***/
+	  if(LCD_Touch_GetState()==LCD_TOUCH_DOWN ) //if there is a touch starting
+	  		  {		LCD_Touch_Read(&p);
+	  			  LCD_Touch_Draw_LastPoint_Bottom(&p);
+	  			  DrawTouchPoint(&p);
 
 
-		  	  /*** main test 3 draw last point and touch END ***/
 
+
+
+	  		  }
+
+	  		  else if(LCD_Touch_GetState()==LCD_TOUCH_MOVE){ //if there is a move during the touch
+	  			  	  	  	  New_p.x=0;
+	  						  New_p.y=0;
+	  						  LCD_Touch_Read(&New_p);
+	  						  if(New_p.y>2&&New_p.x>5){ //if there really is a move
+	  							  LCD_Touch_Draw_LastPoint_Bottom(&New_p);
+	  				  			  DrawTouchPoint(&New_p);
+
+
+	  				  			  if(LCD_Touch_Belong_Interval(&New_p,140,180,180,300))  // carré LED ON
+	  				  			 			  {
+
+	  				  			 					  LCD_SetMode(LCD_MODE_DRAW);
+
+	  				  			 					  ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+	  				  			 					  ILI9341_printText("LED ON 0", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+	  				  			 					  ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+	  				  			 					  ILI9341_printText("LED OFF 0", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+	  				  			 					  LCD_SetMode(LCD_MODE_TOUCH);
+	  				  			 			  }
+
+	  				  			 if(LCD_Touch_Belong_Interval(&New_p,140,180,30,140))  // carré LED OFF
+	  				  			 			{
+	  				  			 					 LCD_SetMode(LCD_MODE_DRAW);
+	  				  			 					 ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_RED);
+	  				  			 					 ILI9341_printText("LED ON 1", 55,  155, COLOR_WHITE, COLOR_RED, 1);
+	  				  			 					 ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_BLUE);
+	  				  			 					 ILI9341_printText("LED OFF 1", 215,  155, COLOR_WHITE, COLOR_BLUE, 1);
+	  				  			 					 LCD_SetMode(LCD_MODE_TOUCH);
+	  				  			 			}
+
+	  				  			 if(LCD_Touch_Belong_Interval(&New_p,50,80,60,180))  // rectangle
+	  				  			 {
+	  				  				 LCD_SetMode(LCD_MODE_DRAW);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane1, sizeof(Banane1));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane2, sizeof(Banane2));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane3, sizeof(Banane3));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane4, sizeof(Banane4));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane5, sizeof(Banane5));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane6, sizeof(Banane6));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane7, sizeof(Banane7));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_printImage(60,30, 100,100,Banane8, sizeof(Banane8));
+	  				  				 HAL_Delay(100);
+	  				  				 ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+	  				  				 LCD_SetMode(LCD_MODE_TOUCH);
+	  				  			 }
+	  				  			 if(LCD_Touch_Belong_Interval(&New_p,1,50,1,50))  // Clear
+	  				  			 			 {
+	  				  				 	 	 	 LCD_SetMode(LCD_MODE_DRAW);
+	  				  				 	 	 	 ILI9341_Fill(COLOR_WHITE);
+	  				  				 	 	 	 ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+	  				  				 	 	 	 ILI9341_printText("LED ON", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+	  				  				 	 	 	 ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+	  				  				 	 	 	 ILI9341_printText("LED OFF", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+	  				  				 	 	 	 ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+	  				  				 	 	 	 ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
+	  				  				 	 	 	 ILI9341_printText("Last touch point X=000  Y=000", 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
+	  				  				 	 	 	 ILI9341_Fill_Rect(5, 215, 5, 25, COLOR_GREEN);
+	  				  				 	 	 	 ILI9341_printText("Max, Leo, Margot, time to start ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+	  				  				 	 	 	 ILI9341_Fill_Rect(280, 0, 320, 40, COLOR_RED);
+	  				  				 	 	 	 ILI9341_printText("X", 292, 5, COLOR_WHITE, COLOR_RED, 4);
+	  				  				 	 	 	 LCD_SetMode(LCD_MODE_TOUCH);
+	  				  				 	 	 	 New_p.x=0;
+	  				  				 	 		 New_p.y=0;
+	  				  				 	 		 p.y=0;
+	  				  				 	 		 p.x=0;
+	  				  			 			 }
+	  				  			 if(New_p.y>p.y+15 && p.y>270 && p.x>70 && p.x<170) //swipe left to the right
+	  				  			 {
+	  				  				 LCD_SetMode(LCD_MODE_DRAW);
+	  				  				 ILI9341_Fill(COLOR_BLUE);
+	  				  				 ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+	  				  				 ILI9341_printText("LED ON", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+	  				  				 ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+	  				  				 ILI9341_printText("LED OFF", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+	  				  				 ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+	  				  				 ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
+	  				  				 ILI9341_printText("Last touch point X=000  Y=000", 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
+	  				  				 ILI9341_Fill_Rect(5, 215, 5, 25, COLOR_GREEN);
+	  				  				 ILI9341_printText("Max, Leo, Margot, time to start ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+	  				  				 ILI9341_Fill_Rect(280, 0, 320, 40, COLOR_RED);
+	  				  				 ILI9341_printText("X", 292, 5, COLOR_WHITE, COLOR_RED, 4);
+	  				  				 LCD_SetMode(LCD_MODE_TOUCH);
+								}
+	  				  			if(p.y<70 && New_p.y<p.y-15 && New_p.x>70 && New_p.x<170) //swipe right to the left
+	  				  			{
+	  				  				LCD_SetMode(LCD_MODE_DRAW);
+									ILI9341_Fill(COLOR_RED);
+									ILI9341_Fill_Rect(20, 140, 140, 180, COLOR_BLUE);
+									ILI9341_printText("LED ON", 55,  155, COLOR_WHITE, COLOR_BLUE, 1);
+									ILI9341_Fill_Rect(180, 140, 300, 180, COLOR_RED);
+									ILI9341_printText("LED OFF", 215,  155, COLOR_WHITE, COLOR_RED, 1);
+									ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+									ILI9341_Fill_Rect(5, 215, 315, 235, COLOR_ORANGE);
+									ILI9341_printText("Last touch point X=000  Y=000", 70, 221, COLOR_WHITE, COLOR_ORANGE, 1);
+									ILI9341_Fill_Rect(5, 215, 5, 25, COLOR_GREEN);
+									ILI9341_printText("Max, Leo, Margot, time to start ", 60 ,5, COLOR_WHITE, COLOR_BLACK, 1);
+									ILI9341_Fill_Rect(280, 0, 320, 40, COLOR_RED);
+									ILI9341_printText("X", 292, 5, COLOR_WHITE, COLOR_RED, 4);
+									LCD_SetMode(LCD_MODE_TOUCH);
+	  				  			}
+
+	  		  }
+	  		 else if(LCD_Touch_GetState()==LCD_TOUCH_UP){ //if the touch end
+	  			 	 char  BUF[3600];
+	  				  sprintf(BUF,"Ticktime : %ld",p.tick);
+	  				  ILI9341_printText(BUF, 60 ,60, COLOR_WHITE, COLOR_ORANGE, 1);
+	  				  BUF[0]='\0';
+	  				  p.tick=0;
+
+	  			  		  }
+	  		  else{ //IDLE
+	  			 /* LCD_SetMode(LCD_MODE_DRAW);
+	  			  ILI9341_Fill_Rect(60, 30, 260, 90, COLOR_RED);
+	  			  ILI9341_printText("NO TOUCH ", 60 ,60, COLOR_WHITE, COLOR_ORANGE, 1);
+	  			  HAL_Delay(1000);
+	  			  LCD_SetMode(LCD_MODE_TOUCH);*/
+	  			  __WFI();
+	  		  }
+	  /*** main test 4 draw  when moving END ***/
+	  		  }
   }
 
     /* USER CODE END WHILE */

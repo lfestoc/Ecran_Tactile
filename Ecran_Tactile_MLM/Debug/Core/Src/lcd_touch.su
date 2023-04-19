@@ -15,7 +15,7 @@
 ../Core/Src/lcd_touch.c:273:6:LCD_Touch_OnUp	4	static
 ../Core/Src/lcd_touch.c:290:16:LCD_Touch_GetState	4	static
 ../Core/Src/lcd_touch.c:297:5:LCD_Touch_Belong_Interval	24	static
-../Core/Src/lcd_touch.c:307:6:LCD_Touch_Draw_LastPoint_Bottom	72	static
-../Core/Src/lcd_touch.c:328:6:DrawTouchPoint	16	static
-../Core/Src/lcd_touch.c:335:6:LCD_Touch_Draw_Update	8	static
-../Core/Src/lcd_touch.c:346:6:LCD_Touch_Draw_OnUp	4	static
+../Core/Src/lcd_touch.c:308:6:LCD_Touch_Draw_LastPoint_Bottom	72	static
+../Core/Src/lcd_touch.c:332:6:DrawTouchPoint	16	static
+../Core/Src/lcd_touch.c:372:6:LCD_Touch_Draw_Update	8	static
+../Core/Src/lcd_touch.c:383:6:LCD_Touch_Draw_OnUp	4	static
