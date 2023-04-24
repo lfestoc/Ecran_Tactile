@@ -32,4 +32,12 @@ Nous avons donc tenté de regler ce problème à l'aide de FLAGS.
 Plusieurs fonctionnalités sont disponible comme la lecture de gif (il faut d'abord rentrer des image sous forme de matrice) (voir image.h).
 Il y à également la possibilité de faire un swipe up, swipe left ou swipe right. 
 
+Dans les perspectives si vous en avez besoin il faudrait : 
+-S'intresser à la partie "tick" du LCD Touch point 
+- Voir si nous utilisons la bonne méthode dans le main avec le GetTouchState car parfois nous ne rentrons pas dans la boucle OnDown (début d'un touch), et nous ne rentrons jamais dans OnUp (Fin de touch) 
+- Voir la vitesse de rafraichissment où la façon dont les données sont reçu par l'écran car le rafraichissment total est long (donc si on veut lire une vidéo pleine écran c'est compliqué) 
+- Voir comment récuperér les pixel autour du point où l'on touche afin d'afficher un curseur et pouvoir renvoyer les pixel qui étaient là avant pour effacer le curseur sans tout rafraichir. 
+- Faire un support pour l'écran car si on force sur l'arrière il est possible de faire un Touch 
+- Voir la taille des images et l'envoie car la taille max que nous avons envoyée est de 50*50 
+
 link of the project on GITHUB : https://github.com/lfestoc/Ecran_Tactile.git
