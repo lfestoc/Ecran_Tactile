@@ -31,3 +31,5 @@ Au moment où nous écrivons cela il y a encore des problèmes au niveau du reto
 Nous avons donc tenté de regler ce problème à l'aide de FLAGS. 
 Plusieurs fonctionnalités sont disponible comme la lecture de gif (il faut d'abord rentrer des image sous forme de matrice) (voir image.h).
 Il y à également la possibilité de faire un swipe up, swipe left ou swipe right. 
+
+link of the project on GITHUB : https://github.com/lfestoc/Ecran_Tactile.git
